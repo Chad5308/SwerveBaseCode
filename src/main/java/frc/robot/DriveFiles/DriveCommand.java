@@ -20,7 +20,7 @@ public class DriveCommand extends Command{
     public final CommandXboxController opController;
     public final CommandJoystick leftStick;
     public final CommandJoystick rightStick;
-    public boolean IsJoyStick = true;
+    public boolean IsJoyStick = false;
 
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
     private boolean fieldOriented=false;

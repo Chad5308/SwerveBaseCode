@@ -24,9 +24,9 @@ public final class Constants {
   public static final class DriveConstants {
 
     //TODO Input trackWidth and WheelBase measurements
-    public static final double kTrackWidth = Units.inchesToMeters(0);
+    public static final double kTrackWidth = Units.inchesToMeters(23.75);
       // Distance between right and left wheels
-    public static final double kWheelBase = Units.inchesToMeters(0);
+    public static final double kWheelBase = Units.inchesToMeters(23.75);
       // Distance between front and back wheels
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
       new Translation2d(kWheelBase / 2, -kTrackWidth / 2), //front left
@@ -37,24 +37,24 @@ public final class Constants {
 
     //TODO Configure all motor controller CAN Bus ports
     //start front front left to front right to back right and all drives then all steers then all absolutes
-    public static final int kFrontRightDriveMotorPort = 0;
-    public static final int kFrontRightTurningMotorPort = 0;
-    public static final int kBackRightDriveMotorPort = 0;
-    public static final int kBackRightTurningMotorPort = 0;
-    public static final int kBackLeftTurningMotorPort = 0;
-    public static final int kBackLeftDriveMotorPort = 0;
-    public static final int kFrontLeftDriveMotorPort = 0;
-    public static final int kFrontLeftTurningMotorPort = 0;
-    public static final int kFrontLeftDriveAbsoluteEncoderPort = 0;
-    public static final int kFrontRightDriveAbsoluteEncoderPort = 0;
-    public static final int kBackRightDriveAbsoluteEncoderPort = 0;
-    public static final int kBackLeftDriveAbsoluteEncoderPort = 0;
+    public static final int kFrontRightDriveMotorPort = 1;
+    public static final int kFrontRightTurningMotorPort = 2;
+    public static final int kBackRightDriveMotorPort = 30;
+    public static final int kBackRightTurningMotorPort = 40;
+    public static final int kBackLeftTurningMotorPort = 50;
+    public static final int kBackLeftDriveMotorPort = 60;
+    public static final int kFrontLeftDriveMotorPort = 70;
+    public static final int kFrontLeftTurningMotorPort = 80;
+    public static final int kFrontLeftDriveAbsoluteEncoderPort = 9;
+    public static final int kFrontRightDriveAbsoluteEncoderPort = 10;
+    public static final int kBackRightDriveAbsoluteEncoderPort = 11;
+    public static final int kBackLeftDriveAbsoluteEncoderPort = 12;
 
     //TODO Test and input all module offsets
-    public static final double kFLDegrees = 0;
+    public static final double kFLDegrees = 277.21;
     public static final double kFRDegrees = 0;
-    public static final double kBRDegrees = 0;
-    public static final double kBLDegrees = 0;
+    public static final double kBRDegrees = 155.4785;
+    public static final double kBLDegrees = 207.45703125;
 
 
     //TODO Invert any motor to match controller output
@@ -63,9 +63,9 @@ public final class Constants {
     public static final boolean kBackLeftTurningEncoderReversed = false;
     public static final boolean kBackRightTurningEncoderReversed = false;
 
-    public static final boolean kFrontLeftDriveEncoderReversed = false;
+    public static final boolean kFrontLeftDriveEncoderReversed = true;
     public static final boolean kFrontRightDriveEncoderReversed = false;
-    public static final boolean kBackLeftDriveEncoderReversed = false;
+    public static final boolean kBackLeftDriveEncoderReversed = true;
     public static final boolean kBackRightDriveEncoderReversed = false;
 
     public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
@@ -73,7 +73,7 @@ public final class Constants {
     public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
     public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
-    public static final double kPhysicalMaxSpeedMetersPerSecond = 4.60248; //6.949 for Swerve X
+    public static final double kPhysicalMaxSpeedMetersPerSecond = 6.949; //6.949 for Swerve X, 4.60248 for sds
     public static final double kPhysicalMaxAngularSpeedRadiansPerSecond =kPhysicalMaxSpeedMetersPerSecond/(kTrackWidth/2);
 
     //For limiting speed while driving
@@ -85,9 +85,9 @@ public final class Constants {
   
   public static final class ModuleConstants {
     public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
-    public static final double kDriveMotorGearRatio = 6.75 / 1; //4.59 for Swerve X
-    public static final double kTurningMotorGearRatio = 12.8 / 1; //13.3714 for Swerve X
-    public static final double kDriveEncoderRot2Meter = 1/23.58; //Not sure try 1/16.0344
+    public static final double kDriveMotorGearRatio = 4.59 / 1; //4.59 for Swerve X, 6.75 for sds
+    public static final double kTurningMotorGearRatio = 13.3714 / 1; //13.3714 for Swerve X, 12.8 for sds
+    public static final double kDriveEncoderRot2Meter = 1/16.0344; //Not sure try 1/16.0344, 1/23.58 for sds
     
     public static final double kTurningConversionFactor2Deg =  28.25;
     public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;

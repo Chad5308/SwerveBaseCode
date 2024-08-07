@@ -37,24 +37,24 @@ public final class Constants {
 
     //TODO Configure all motor controller CAN Bus ports
     //start front front left to front right to back right and all drives then all steers then all absolutes
-    public static final int kFrontRightDriveMotorPort = 1;
-    public static final int kFrontRightTurningMotorPort = 2;
-    public static final int kBackRightDriveMotorPort = 30;
-    public static final int kBackRightTurningMotorPort = 40;
-    public static final int kBackLeftTurningMotorPort = 50;
-    public static final int kBackLeftDriveMotorPort = 60;
-    public static final int kFrontLeftDriveMotorPort = 70;
-    public static final int kFrontLeftTurningMotorPort = 80;
-    public static final int kFrontLeftDriveAbsoluteEncoderPort = 9;
-    public static final int kFrontRightDriveAbsoluteEncoderPort = 10;
-    public static final int kBackRightDriveAbsoluteEncoderPort = 11;
+    public static final int kFrontLeftDriveMotorPort = 1;
+    public static final int kFrontLeftTurningMotorPort = 2;
+    public static final int kBackLeftTurningMotorPort = 3;
+    public static final int kBackLeftDriveMotorPort = 4;
+    public static final int kFrontRightDriveMotorPort = 5;
+    public static final int kFrontRightTurningMotorPort = 6;
+    public static final int kBackRightTurningMotorPort = 7;
+    public static final int kBackRightDriveMotorPort = 8;
+    public static final int kFrontLeftDriveAbsoluteEncoderPort = 10;
+    public static final int kFrontRightDriveAbsoluteEncoderPort = 11;
     public static final int kBackLeftDriveAbsoluteEncoderPort = 12;
+    public static final int kBackRightDriveAbsoluteEncoderPort = 13;
 
     //TODO Test and input all module offsets
-    public static final double kFLDegrees = 277.21;
+    public static final double kFLDegrees = 0;
     public static final double kFRDegrees = 0;
-    public static final double kBRDegrees = 155.4785;
-    public static final double kBLDegrees = 207.45703125;
+    public static final double kBRDegrees = 0;
+    public static final double kBLDegrees = 0;
 
 
     //TODO Invert any motor to match controller output

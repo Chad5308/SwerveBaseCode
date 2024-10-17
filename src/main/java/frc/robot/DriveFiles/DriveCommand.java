@@ -78,8 +78,7 @@ public class DriveCommand extends Command{
         ChassisSpeeds chassisSpeeds;
         if(s_limelight.autoAlign)
         {
-            chassisSpeeds = new ChassisSpeeds(0, xSpeed, turningSpeed);
-
+            chassisSpeeds = new ChassisSpeeds(s_limelight.xSpeed, s_limelight.ySpeed, s_limelight.turningSpeed);
         }
         else if(fieldOriented){
             chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, turningSpeed, swerveSubsystem.geRotation2d());

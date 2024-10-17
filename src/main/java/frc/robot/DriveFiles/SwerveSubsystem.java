@@ -174,15 +174,15 @@ public class SwerveSubsystem extends SubsystemBase{
                SmartDashboard.putNumber("Robot Heading", getHeading());
               
                //AE Degrees Reading
-                SmartDashboard.putNumber("Back Left AE Value", backLeftModule.getAbsoluteEncoderDeg(Constants.DriveConstants.kBLDegrees));
-                SmartDashboard.putNumber("Back Right AE Value", backRightModule.getAbsoluteEncoderDeg(Constants.DriveConstants.kBRDegrees));
-                SmartDashboard.putNumber("Front Left AE Value", frontLeftModule.getAbsoluteEncoderDeg(Constants.DriveConstants.kFLDegrees));
-                SmartDashboard.putNumber("Front Right AE Value", frontRightModule.getAbsoluteEncoderDeg(Constants.DriveConstants.kFRDegrees));
-            //   //RE Degrees Reading
-                SmartDashboard.putNumber("Back left RE Value", backLeftModule.getSteerPosition());
-                SmartDashboard.putNumber("Back Right RE Value", backRightModule.getSteerPosition());
-                SmartDashboard.putNumber("Front left RE Value", frontLeftModule.getSteerPosition());
-                SmartDashboard.putNumber("Front Right RE Value", frontRightModule.getSteerPosition());
+            //     SmartDashboard.putNumber("Back Left AE Value", backLeftModule.getAbsoluteEncoderDeg(Constants.DriveConstants.kBLDegrees));
+            //     SmartDashboard.putNumber("Back Right AE Value", backRightModule.getAbsoluteEncoderDeg(Constants.DriveConstants.kBRDegrees));
+            //     SmartDashboard.putNumber("Front Left AE Value", frontLeftModule.getAbsoluteEncoderDeg(Constants.DriveConstants.kFLDegrees));
+            //     SmartDashboard.putNumber("Front Right AE Value", frontRightModule.getAbsoluteEncoderDeg(Constants.DriveConstants.kFRDegrees));
+            // //   //RE Degrees Reading
+            //     SmartDashboard.putNumber("Back left RE Value", backLeftModule.getSteerPosition());
+            //     SmartDashboard.putNumber("Back Right RE Value", backRightModule.getSteerPosition());
+            //     SmartDashboard.putNumber("Front left RE Value", frontLeftModule.getSteerPosition());
+            //     SmartDashboard.putNumber("Front Right RE Value", frontRightModule.getSteerPosition());
             //  //RE Distance Reading
             //    SmartDashboard.putNumber("Front Left Drive Position", frontLeftModule.getDrivePosition());
             //    SmartDashboard.putNumber("Front Right Drive Position", frontRightModule.getDrivePosition());

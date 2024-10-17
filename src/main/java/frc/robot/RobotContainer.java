@@ -55,6 +55,10 @@ public class RobotContainer {
     opController.povLeft().toggleOnTrue(s_Swerve.fieldOrientedToggle());
     opController.button(7).onTrue(s_Swerve.resetWheels()); //window looking button
 
+    opController.a().whileTrue(s_limelight.alignRobot());
+    opController.a().whileFalse(s_limelight.stopAlign());
+
+
 
     // rightStick.button(4).toggleOnTrue(Commands.runOnce(() -> s_Swerve.zeroHeading()));
     // rightStick.button(3).toggleOnTrue(s_Swerve.fieldOrientedToggle());

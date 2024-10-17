@@ -4,12 +4,16 @@ import java.util.Optional;
 
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.IntegerPublisher;
 import edu.wpi.first.networktables.IntegerSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -21,16 +25,17 @@ public IntegerSubscriber pipeline;
 public IntegerPublisher pipelinePublisher;
 // public double targetHeight = 1.450975;
 // public double cameraHeight = 1.2065;
-public double xAng, yAng, hasTargets, zSpeed, xSpeed, turningSpeed, targetID;
-public double correctionX, correctionZ, correctionT;
-public double distanceX, distanceZ;
-public double yAngToDegrees;
+public double xAng, yAng, hasTargets, ySpeed, xSpeed, turningSpeed, targetID;
+public double correctionX, correctionY, correctionT;
+public double distanceX, distanceY;
+public double yAngToRadians, xAngToRadians;
 public double[] localizedPose;
 public double[] botPose_targetSpace;
 public ProfiledPIDController thetaPIDController;
-public ProfiledPIDController ZPIDController;
-public ProfiledPIDController XPIDController;
+public ProfiledPIDController lateralPIDController;
 public boolean autoAlign = false;
+
+public SlewRateLimiter tLimiter, xLimiter, yLimiter;
 
     public LimelightSubsystem(SwerveSubsystem s_swerve){
         this.s_swerve = s_swerve;
@@ -44,8 +49,10 @@ public boolean autoAlign = false;
         pipeline = networkTables.getIntegerTopic("limelight.getpipe").subscribe(0);
         pipelinePublisher = networkTables.getIntegerTopic("limelight.getpipeline").publish();
         thetaPIDController = new ProfiledPIDController(Constants.limelightConstants.thetakP, Constants.limelightConstants.thetakI, Constants.limelightConstants.thetakD, Constants.AutoConstants.kThetaControllerConstraints);
-        ZPIDController = new ProfiledPIDController(Constants.limelightConstants.linearkP, Constants.limelightConstants.linearkI, Constants.limelightConstants.linearkD, Constants.AutoConstants.kLinearConstraints);
-        XPIDController = new ProfiledPIDController(Constants.limelightConstants.linearkP, Constants.limelightConstants.linearkI, Constants.limelightConstants.linearkD, Constants.AutoConstants.kLinearConstraints);
+        lateralPIDController = new ProfiledPIDController(Constants.limelightConstants.linearkP, Constants.limelightConstants.linearkI, Constants.limelightConstants.linearkD, Constants.AutoConstants.kLinearConstraints);
+        tLimiter = new SlewRateLimiter(Constants.AutoConstants.kMaxAngularAccelerationUnitsPerSecond);
+        xLimiter = new SlewRateLimiter(Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
+        yLimiter = new SlewRateLimiter(Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
     }
 
     public Optional<Pose2d> getPoseFromAprilTags() {
@@ -55,16 +62,57 @@ public boolean autoAlign = false;
     }
     public void setThetaPID(){
         thetaPIDController.setGoal(0);
-        thetaPIDController.setTolerance(Math.toRadians(10));
+        thetaPIDController.setTolerance(Math.toRadians(5));
         }
     public void setLinearPID(){
-        ZPIDController.setGoal(0.75); //inches
-        ZPIDController.setTolerance(0.25); //meters
-
-        XPIDController.setGoal(0);
-        XPIDController.setTolerance(0.25);
+        lateralPIDController.setTolerance(0.25);//meters
     }
 
+
+    public Command alignRobot()
+    {
+        return Commands.runOnce(()-> 
+        {
+            autoAlign = true;
+        });
+    }
+    public Command stopAlign()
+    {
+        return Commands.runOnce(()-> 
+        {
+            autoAlign = false;
+        });
+    }
+
+    public void autoAlign()
+    {
+        if(!thetaPIDController.atGoal())
+            {
+                turningSpeed = -correctionT;
+                xSpeed = 0;
+                ySpeed = 0;
+            }else
+            {
+                turningSpeed = 0;
+                xSpeed = 0;
+                ySpeed = 0;
+            }
+    }
+
+    public void autoDrive()
+    {
+        if(!thetaPIDController.atGoal() && !lateralPIDController.atGoal())
+            {
+                turningSpeed = -correctionT;
+                xSpeed = 0;
+                ySpeed = 0;
+            }else
+            {
+                turningSpeed = 0;
+                xSpeed = 0;
+                ySpeed = 0;
+            }
+    }
     
     
     @Override
@@ -77,36 +125,33 @@ public boolean autoAlign = false;
         
         botPose_targetSpace = networkTables.getEntry("botpose_targetspace").getDoubleArray(new double[6]);
         localizedPose = networkTables.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
-        xAng = Math.toRadians(networkTables.getEntry("tx").getDouble(0));
-        yAng = Math.toRadians(networkTables.getEntry("ty").getDouble(0)) + Math.toRadians(Constants.limelightConstants.angleOffset);
-        yAngToDegrees = Math.toDegrees(yAng);
+        xAng = networkTables.getEntry("tx").getDouble(0);
+        yAng = networkTables.getEntry("ty").getDouble(0) + Constants.limelightConstants.angleOffset;
+        yAngToRadians = Math.toRadians(yAng);
+        xAngToRadians = Math.toRadians(xAng);
         hasTargets = networkTables.getEntry("tv").getDouble(0);
         targetID = networkTables.getEntry("tid").getDouble(0);
         // distanceX = ((targetHeight-cameraHeight) / (Math.tan(yAng)));//inches
-        // distanceZ = distanceX * Math.tan(xAng);//inches
+        // distanceY = distanceX * Math.tan(xAng);//inches
         // distanceX = botPose_targetSpace[0];
-        // distanceZ = Math.abs(botPose_targetSpace[2]);
-        // correctionX = XPIDController.calculate(distanceX);//meters
-        // correctionZ = ZPIDController.calculate(distanceZ);//meters
-        correctionT = thetaPIDController.calculate(xAng);//radians
-        // SmartDashboard.putNumber("Auto Angle", autoAngle()); **
+        // distanceY = Math.abs(botPose_targetSpace[2]);
+        correctionX = lateralPIDController.calculate(distanceX);//meters
+        correctionY = lateralPIDController.calculate(distanceY);//meters
+        correctionT = Math.toRadians(xAng * thetaPIDController.getP()) * Constants.AutoConstants.kMaxAngularSpeedRadiansPerSecond;//radians
         
-        if(!XPIDController.atSetpoint() && ZPIDController.atSetpoint()){
-            xSpeed = XPIDController.getSetpoint().velocity + correctionX;
-            zSpeed = ZPIDController.getSetpoint().velocity + correctionZ;
-            turningSpeed = 0;
-        }
+        autoAlign();
+       
+        
 
 
 // SmartDashboard.putNumber("Distance X", distanceX);
-// SmartDashboard.putNumber("Distance Z", distanceZ);
-// SmartDashboard.putNumber("Turning Speed", turningSpeed);
-// SmartDashboard.putNumber("X Speed", zSpeed);
+// SmartDashboard.putNumber("Distance Z", distanceY);
+SmartDashboard.putNumber("Turning Speed", turningSpeed);
+// SmartDashboard.putNumber("X Speed", ySpeed);
 // SmartDashboard.putNumber("Y Speed", xSpeed);
-// SmartDashboard.putNumber("TX Value", xAng); **
+SmartDashboard.putNumber("TX Value", xAng);
 // SmartDashboard.putNumber("TY Value", yAng);
 // SmartDashboard.putNumber("TY degrees", Math.toDegrees(yAng));
-// SmartDashboard.putBoolean("Is command running", autoAlign);
 
 
 // SmartDashboard.putNumber("BotPose X", botPose_targetSpace[0]);

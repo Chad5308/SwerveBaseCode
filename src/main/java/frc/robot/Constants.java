@@ -37,24 +37,28 @@ public final class Constants {
 
     //TODO Configure all motor controller CAN Bus ports
     //start front front left to front right to back right and all drives then all steers then all absolutes
-    public static final int kFrontLeftDriveMotorPort = 1;
-    public static final int kFrontLeftTurningMotorPort = 2;
-    public static final int kBackLeftTurningMotorPort = 3;
-    public static final int kBackLeftDriveMotorPort = 4;
-    public static final int kFrontRightDriveMotorPort = 5;
-    public static final int kFrontRightTurningMotorPort = 6;
-    public static final int kBackRightTurningMotorPort = 7;
-    public static final int kBackRightDriveMotorPort = 8;
-    public static final int kFrontLeftDriveAbsoluteEncoderPort = 10;
-    public static final int kFrontRightDriveAbsoluteEncoderPort = 11;
-    public static final int kBackLeftDriveAbsoluteEncoderPort = 12;
-    public static final int kBackRightDriveAbsoluteEncoderPort = 13;
+    public static final int kFrontLeftTurningMotorPort = 7;//2
+    public static final int kFrontLeftDriveMotorPort = 8;//1
+    public static final int kFrontLeftDriveAbsoluteEncoderPort = 10;//10
+    
+    public static final int kFrontRightTurningMotorPort = 3;//6
+    public static final int kFrontRightDriveMotorPort = 4;//5
+    public static final int kFrontRightDriveAbsoluteEncoderPort = 11; //11
+
+    public static final int kBackLeftTurningMotorPort = 6; //3
+    public static final int kBackLeftDriveMotorPort = 5; //4
+    public static final int kBackLeftDriveAbsoluteEncoderPort = 12; //12
+
+    public static final int kBackRightTurningMotorPort = 2; //7
+    public static final int kBackRightDriveMotorPort = 1; //8
+    public static final int kBackRightDriveAbsoluteEncoderPort = 9;//13
+    
 
     //TODO Test and input all module offsets
-    public static final double kFLDegrees = 0;
-    public static final double kFRDegrees = 0;
-    public static final double kBRDegrees = 0;
-    public static final double kBLDegrees = 0;
+    public static final double kFLDegrees = 131.396484375;
+    public static final double kFRDegrees = -111.4453125;
+    public static final double kBLDegrees = 152.2265625;
+    public static final double kBRDegrees = 4.5703125;
 
 
     //TODO Invert any motor to match controller output
@@ -108,6 +112,64 @@ public final class Constants {
   }
  
 
+  
+  public static final class AprilTagIds{
+    public static final int blueSourceRight = 1;
+    public static final int blueSourceLeft = 2;
+    public static final int redSpeakerRight = 3;
+    public static final int redSpeakerLeft = 3;
+    public static final int redAmp = 5;
+    public static final int blueAmp = 6;
+    public static final int blueSpeakerRight = 7;
+    public static final int blueSpeakerLeft = 8;
+    public static final int redSourceRight = 9;
+    public static final int redSourceLeft = 10;
+    public static final int redStageSource = 11;
+    public static final int redStageAmp = 12;
+    public static final int redStageCenter = 13;
+    public static final int blueStageCenter = 14;
+    public static final int blueStageAmp = 15;
+    public static final int blueStageSource = 16;
+  }
 
+  public static final class limelightConstants{
+    public static final double thetakP = 3.0;
+    public static final double thetakI = 0;
+    public static final double thetakD = 0;
+
+    public static final double linearkP = 0.4;
+    public static final double linearkI = 0;
+    public static final double linearkD = 0;
+    public static final double angleOffset = 0; //degrees TODO Find this value
+  }
+
+
+  public static final class AutoConstants {
+    public static final double kMaxSpeedMetersPerSecond = DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+    public static final double kMaxAngularSpeedRadiansPerSecond =  DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+    public static final double kMaxAccelerationMetersPerSecondSquared = DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond;
+    public static final double kMaxAngularAccelerationUnitsPerSecond = DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond;
+
+    public static  double kPTranslation = 5;
+    public static  double kITranslation = 0;
+    public static  double kDTranslation = 0;
+
+    public static final double kPTheta = 5;
+    public static final double kITheta = 0;
+    public static final double kDTheta = 0;
+
+
+    public static final HashMap<String, Command> AUTO_EVENT_MAP = new HashMap<>();
+
+    public static final TrapezoidProfile.Constraints kThetaControllerConstraints = 
+            new TrapezoidProfile.Constraints(
+                    kMaxAngularSpeedRadiansPerSecond,
+                    kMaxAngularAccelerationUnitsPerSecond);
+    public static final TrapezoidProfile.Constraints kLinearConstraints = 
+            new TrapezoidProfile.Constraints(
+                kMaxSpeedMetersPerSecond,
+                kMaxAccelerationMetersPerSecondSquared
+            );
+  }
 }
 

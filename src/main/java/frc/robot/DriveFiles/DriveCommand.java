@@ -76,9 +76,10 @@ public class DriveCommand extends Command{
         turningSpeed = turningLimiter.calculate(turningSpeed) * Constants.DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
         ChassisSpeeds chassisSpeeds;
-        if(s_limelight.autoAlign)
+        if(s_limelight.autoDrive)
         {
-            chassisSpeeds = new ChassisSpeeds(s_limelight.xSpeed, s_limelight.ySpeed, s_limelight.turningSpeed);
+            chassisSpeeds = new ChassisSpeeds(s_limelight.ySpeed, s_limelight.xSpeed, s_limelight.turningSpeed);
+            // chassisSpeeds = new ChassisSpeeds(ySpeed, xSpeed, s_limelight.turningSpeed);
         }
         else if(fieldOriented){
             chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, turningSpeed, swerveSubsystem.geRotation2d());

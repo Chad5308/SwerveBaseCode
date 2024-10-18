@@ -133,11 +133,11 @@ public final class Constants {
   }
 
   public static final class limelightConstants{
-    public static final double thetakP = 0.25;
+    public static final double thetakP = 0.075;
     public static final double thetakI = 0;
     public static final double thetakD = 0;
 
-    public static final double linearkP = 0.4;
+    public static final double linearkP = 0.015;
     public static final double linearkI = 0;
     public static final double linearkD = 0;
     public static final double angleOffset = 0; //degrees TODO Find this value

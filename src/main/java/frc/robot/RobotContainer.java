@@ -29,6 +29,7 @@ public class RobotContainer {
 
   public static Robot robot = new Robot();
   public SwerveSubsystem s_Swerve = new SwerveSubsystem();
+  public LimelightHelpers h_Limelight = new LimelightHelpers();
   public LimelightSubsystem s_limelight = new LimelightSubsystem(s_Swerve);
   // public DriveCommand d_Command = new DriveCommand(s_Swerve, opController, leftStick, rightStick);
   public DriveCommand d_Command = new DriveCommand(s_Swerve, opController, s_limelight);
@@ -55,9 +56,8 @@ public class RobotContainer {
     opController.povLeft().toggleOnTrue(s_Swerve.fieldOrientedToggle());
     opController.button(7).onTrue(s_Swerve.resetWheels()); //window looking button
 
-    opController.a().whileTrue(s_limelight.alignRobot());
-    opController.a().whileFalse(s_limelight.stopAlign());
-
+    // opController.a().onTrue(s_limelight.autoAlignToggle());
+    opController.b().onTrue(s_limelight.autoDriveToggle());
 
 
     // rightStick.button(4).toggleOnTrue(Commands.runOnce(() -> s_Swerve.zeroHeading()));

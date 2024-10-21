@@ -78,7 +78,7 @@ public class DriveCommand extends Command{
         ChassisSpeeds chassisSpeeds;
         if(s_limelight.autoDrive)
         {
-            chassisSpeeds = new ChassisSpeeds(s_limelight.ySpeed, s_limelight.xSpeed, s_limelight.turningSpeed);
+            chassisSpeeds = new ChassisSpeeds(s_limelight.zSpeed, s_limelight.xSpeed, s_limelight.turningSpeed);
             // chassisSpeeds = new ChassisSpeeds(ySpeed, xSpeed, s_limelight.turningSpeed);
         }
         else if(fieldOriented){

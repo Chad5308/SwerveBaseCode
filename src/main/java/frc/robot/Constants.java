@@ -81,10 +81,10 @@ public final class Constants {
     public static final double kPhysicalMaxAngularSpeedRadiansPerSecond =kPhysicalMaxSpeedMetersPerSecond/(kTrackWidth/2);
 
     //For limiting speed while driving
-    public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 1;
-    public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 1;
-    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3.5;
-    public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 2.5;
+    public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 1.0;
+    public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 1.0;
+    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 2.0;
+    public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 0.75;
   }
   
   public static final class ModuleConstants {
@@ -98,7 +98,7 @@ public final class Constants {
     public static final double kTurningEncoderRPM2DegPerSec = kTurningConversionFactor2Deg / 60;
 
     public static final double kPTurning = 0.0075;
-    public static final double kITurning = 0;
+    public static final double kITurning = 0.0;
     public static final double kDTurning = 0.75;
 
     public static final double moduleRadius = Units.inchesToMeters(Constants.DriveConstants.kTrackWidth/2); //measured from center of robot to furthest module.
@@ -133,14 +133,13 @@ public final class Constants {
   }
 
   public static final class limelightConstants{
-    public static final double thetakP = 0.075;
+    public static final double thetakP = 7.5;
     public static final double thetakI = 0;
     public static final double thetakD = 0;
 
     public static final double linearkP = 0.015;
     public static final double linearkI = 0;
     public static final double linearkD = 0;
-    public static final double angleOffset = 0; //degrees TODO Find this value
   }
 
 

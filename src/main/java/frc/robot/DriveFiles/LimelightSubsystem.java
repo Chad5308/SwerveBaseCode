@@ -100,26 +100,11 @@ public SlewRateLimiter tLimiter, xLimiter, yLimiter;
     
     @Override
     public void periodic(){
-        // if (s_swerve.allianceCheck() == true) {
-    //             localizedPose = networkTables.getEntry("botpose_wpired").getDoubleArray(new double[6]);
-    // } else {
-        //         localizedPose = networkTables.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
-        //     }
-        
-        // botPose_targetSpace = networkTables.getEntry("botpose_targetspace").getDoubleArray(new double[6]);
-        // localizedPose = networkTables.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
-        // xAng = networkTables.getEntry("tx").getDouble(0);
-        // yAng = networkTables.getEntry("ty").getDouble(0) + Constants.limelightConstants.angleOffset;
-        // yAngToRadians = Math.toRadians(yAng);
-        // xAngToRadians = Math.toRadians(xAng);
-        // targetArea = networkTables.getEntry("ta").getDouble(0);
-        // targetID = networkTables.getEntry("tid").getDouble(0);
         // distanceX = ((targetHeight-cameraHeight) / (Math.tan(yAng)));//inches
         // distanceY = distanceX * Math.tan(xAng);//inches
         // distanceX = botPose_targetSpace[0];
         // distanceY = Math.abs(botPose_targetSpace[2]);
-        // correctionX = -1* targetArea * lateralPIDController.getP() * Constants.AutoConstants.kMaxSpeedMetersPerSecond;//meters per second
-        
+
         botPose_targetSpace = LimelightHelpers.getBotPose_TargetSpace(limelightName);
         localizedPose = s_swerve.isRedAlliance ? LimelightHelpers.getBotPose_wpiRed(limelightName) : LimelightHelpers.getBotPose_wpiBlue(limelightName);
         xAng = LimelightHelpers.getTX(limelightName);
@@ -127,7 +112,7 @@ public SlewRateLimiter tLimiter, xLimiter, yLimiter;
         yAng = LimelightHelpers.getTY(limelightName)+ Constants.limelightConstants.angleOffset;
         yAngToRadians = Math.toRadians(yAng);
         hasTargets = LimelightHelpers.getTV(limelightName);
-        // targetID = LimelightHelpers.getFiducialID(limelightName);
+        targetID = LimelightHelpers.getFiducialID(limelightName);
         targetArea = LimelightHelpers.getTA(limelightName);
         correctionY = (90-yAng) * lateralPIDController.getP() * Constants.AutoConstants.kMaxSpeedMetersPerSecond;//meters per second ;//meters
         correctionT = -1 * Math.toRadians(xAng * thetaPIDController.getP()) * Constants.AutoConstants.kMaxAngularSpeedRadiansPerSecond;//radians per second

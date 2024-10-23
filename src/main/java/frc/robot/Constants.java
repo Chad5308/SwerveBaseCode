@@ -133,9 +133,9 @@ public final class Constants {
   }
 
   public static final class limelightConstants{
-    public static final double thetakP = 7.5;
+    public static final double thetakP = 1.75;
     public static final double thetakI = 0;
-    public static final double thetakD = 0;
+    public static final double thetakD = 15;
 
     public static final double linearkP = 0.015;
     public static final double linearkI = 0;
@@ -144,8 +144,8 @@ public final class Constants {
 
 
   public static final class AutoConstants {
-    public static final double kMaxSpeedMetersPerSecond = 0.5;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 0.25;
+    public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond/2;//0.5;
+    public static final double kMaxAccelerationMetersPerSecondSquared = DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond/2;//0.25;
     public static final double kMaxAngularSpeedRadiansPerSecond =  DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
     public static final double kMaxAngularAccelerationUnitsPerSecond = DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond;
 

@@ -6,6 +6,7 @@ import org.opencv.core.Mat;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -39,9 +40,12 @@ public String limelightName = "limelight";
 
 public LimelightResults r_limelight;
 
+public LimelightHelpers.PoseEstimate mt2;
+
+
 // public Apri fieldLayout;
 
-public SlewRateLimiter tLimiter, xLimiter, zLimiter;
+// public SlewRateLimiter tLimiter, xLimiter, zLimiter;
 
     public LimelightSubsystem(SwerveSubsystem s_swerve){
         this.s_swerve = s_swerve;
@@ -53,15 +57,18 @@ public SlewRateLimiter tLimiter, xLimiter, zLimiter;
         thetaPIDController = new ProfiledPIDController(Constants.limelightConstants.thetakP, Constants.limelightConstants.thetakI, Constants.limelightConstants.thetakD, Constants.AutoConstants.kThetaControllerConstraints);
         xPIDController = new ProfiledPIDController(Constants.limelightConstants.linearkP, Constants.limelightConstants.linearkI, Constants.limelightConstants.linearkD, Constants.AutoConstants.kLinearConstraints);
         zPIDController = new ProfiledPIDController(Constants.limelightConstants.linearkP, Constants.limelightConstants.linearkI, Constants.limelightConstants.linearkD, Constants.AutoConstants.kLinearConstraints);
-        tLimiter = new SlewRateLimiter(Constants.AutoConstants.kMaxAngularAccelerationUnitsPerSecond);
-        xLimiter = new SlewRateLimiter(Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
-        zLimiter = new SlewRateLimiter(Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
+        // tLimiter = new SlewRateLimiter(Constants.AutoConstants.kMaxAngularAccelerationUnitsPerSecond);
+        // xLimiter = new SlewRateLimiter(Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
+        // zLimiter = new SlewRateLimiter(Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
 
       setPIDControllers();
 
         LimelightHelpers.LimelightResults r_limelight = new LimelightResults();
 
         // fieldLayout = new AprilTagFieldLayout(AprilTagFields.k2024Crescendo.);
+
+        // LimelightHelpers.SetRobotOrientation(limelightName, s_swerve.m_poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+        // mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelightName);
     }
 
     public Optional<Pose2d> getPoseFromAprilTags() {
@@ -74,7 +81,7 @@ public SlewRateLimiter tLimiter, xLimiter, zLimiter;
     public void setPIDControllers()
     {
         thetaPIDController.setGoal(0);//radians
-        thetaPIDController.setTolerance(Math.toRadians(2)); //radians
+        thetaPIDController.setTolerance(Math.toRadians(1)); //radians
 
         xPIDController.setGoal(0);//meters
         xPIDController.setTolerance(0.1);//meters
@@ -96,30 +103,9 @@ public SlewRateLimiter tLimiter, xLimiter, zLimiter;
     public void autoDrive()
     {
         LimelightHelpers.setPipelineIndex(limelightName, 0);
-
-        // if(hasTargets && (!xPIDController.atGoal() || !thetaPIDController.atGoal()))
-        //     {
-        //         zSpeed = -1* xPIDController.calculate(90-yAng);
-        //         xSpeed = 0;
-        //         turningSpeed = thetaPIDController.calculate(xAng);
-        //     }else
-        //     {
-        //         zSpeed = 0;
-        //         xSpeed = 0;
-        //         turningSpeed = 0;
-        //     }
-
-            if(hasTargets && (!xPIDController.atGoal() || !zPIDController.atGoal() || !thetaPIDController.atGoal()))
-            {
-                // zSpeed = -1 * zPIDController.calculate(correctionZ);
-                // xSpeed = -1 * xPIDController.calculate(correctionX);
-                turningSpeed = thetaPIDController.calculate(xAngToRadians);
-            }else
-            {
-                zSpeed = 0;
-                xSpeed = 0;
-                turningSpeed = 0;
-            }
+        turningSpeed = thetaPIDController.calculate(xAngToRadians); //Rads / sec
+        zSpeed = -1 * zPIDController.calculate(correctionZ); //m/sec
+        // xSpeed = -1 * xPIDController.calculate(correctionX); //m/sec
     }
     
     
@@ -129,15 +115,12 @@ public SlewRateLimiter tLimiter, xLimiter, zLimiter;
         // distanceY = distanceX * Math.tan(xAng);//inches
         // distanceX = botPose_targetSpace[0];
         // distanceY = Math.abs(botPose_targetSpace[2]);
-<<<<<<< HEAD
 
-=======
         // correctionX = -1* targetArea * xPIDController.getP() * Constants.AutoConstants.kMaxSpeedMetersPerSecond;//meters per second
         
->>>>>>> aef94c987a29628b3542179bc09835b2cef9d5cd
         botPose_targetSpace = LimelightHelpers.getBotPose_TargetSpace(limelightName);
         targetPose_robotSpace = LimelightHelpers.getTargetPose_RobotSpace(limelightName);
-        localizedPose = s_swerve.isRedAlliance ? LimelightHelpers.getBotPose_wpiRed(limelightName) : LimelightHelpers.getBotPose_wpiBlue(limelightName);
+        localizedPose = LimelightHelpers.getBotPose_wpiBlue(limelightName);
         xAng = LimelightHelpers.getTX(limelightName);
         xAngToRadians = Math.toRadians(xAng);
         yAng = LimelightHelpers.getTY(limelightName);
@@ -149,11 +132,13 @@ public SlewRateLimiter tLimiter, xLimiter, zLimiter;
         correctionT = -1 * Math.toRadians(xAng * thetaPIDController.getP()) * Constants.AutoConstants.kMaxAngularSpeedRadiansPerSecond;//radians per second
         autoDrive();
         
-        correctionX = targetPose_robotSpace[0];
-        correctionZ = targetPose_robotSpace[2];
+        // correctionX = targetPose_robotSpace[0];
+        // correctionZ = targetPose_robotSpace[2];
 
 
 
+        // s_swerve.m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+        // s_swerve.m_poseEstimator.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
 
 // SmartDashboard.putNumber("Distance X", distanceX);
 // SmartDashboard.putNumber("Distance Z", distanceY);
@@ -163,6 +148,7 @@ SmartDashboard.putNumber("TA Value", targetArea);
 SmartDashboard.putNumber("Y Speed", zSpeed);
 SmartDashboard.putNumber("TX Value", xAng);
 SmartDashboard.putNumber("TY Value", yAng);
+// SmartDashboard.putString("Pose Estimate", mt2.pose.toString());
 
 
 // SmartDashboard.putNumber("BotPose X", botPose_targetSpace[0]);

@@ -10,7 +10,12 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Distance;
+import edu.wpi.first.units.Measure;
 import edu.wpi.first.wpilibj2.command.Command;
+
+import edu.wpi.first.units.measure.LinearVelocity;
+
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -23,6 +28,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 public final class Constants {
   public static final class DriveConstants {
 
+    public static final Measure<Distance> wheelRadius = edu.wpi.first.units.Units.Inches.of(1.5);
+    // public static final double wheelRadius = Units.inchesToMeters(1.5);
+    public static final double COF = 1.2;
     //TODO Input trackWidth and WheelBase measurements
     public static final double kTrackWidth = Units.inchesToMeters(23.75);
       // Distance between right and left wheels
@@ -77,7 +85,8 @@ public final class Constants {
     public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
     public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
-    public static final double kPhysicalMaxSpeedMetersPerSecond = 4.60248; //6.949 for Swerve X, 4.60248 for sds
+    // public static final double kPhysicalMaxSpeedMetersPerSecond = 4.60248; //6.949 for Swerve X, 4.60248 for sd
+    public static final LinearVelocity kPhysicalMaxSpeedMetersPerSecond = 
     public static final double kPhysicalMaxAngularSpeedRadiansPerSecond =kPhysicalMaxSpeedMetersPerSecond/(kTrackWidth/2);
 
     //For limiting speed while driving
@@ -113,33 +122,38 @@ public final class Constants {
  
 
   
-  public static final class AprilTagIds{
-    public static final int blueSourceRight = 1;
-    public static final int blueSourceLeft = 2;
-    public static final int redSpeakerRight = 3;
-    public static final int redSpeakerLeft = 3;
-    public static final int redAmp = 5;
-    public static final int blueAmp = 6;
-    public static final int blueSpeakerRight = 7;
-    public static final int blueSpeakerLeft = 8;
-    public static final int redSourceRight = 9;
-    public static final int redSourceLeft = 10;
-    public static final int redStageSource = 11;
-    public static final int redStageAmp = 12;
-    public static final int redStageCenter = 13;
-    public static final int blueStageCenter = 14;
-    public static final int blueStageAmp = 15;
-    public static final int blueStageSource = 16;
+  public static final class AprilTagIds{ //[id num, height in inches, coordinate x, coordinate y, heading]
+    public static final double[] blueSourceRight = {1, 53.375};
+    public static final double[] blueSourceLeft = {2, 53.375};
+    public static final double[] redSpeakerRight = {3, 57.125};
+    public static final double[] redSpeakerLeft = {4, 57.125};
+    public static final double[] redAmp = {5, 53.25};
+    public static final double[] blueAmp = {6, 53.25};
+    public static final double[] blueSpeakerRight = {7, 57.125};
+    public static final double[] blueSpeakerLeft = {8, 57.125};
+    public static final double[] redSourceRight = {9, 53.375};
+    public static final double[] redSourceLeft = {10, 53.375};
+    public static final double[] redStageSource = {11, 51.25};
+    public static final double[] redStageAmp = {12, 51.25};
+    public static final double[] redStageCenter = {13, 51.25};
+    public static final double[] blueStageCenter = {14, 51.25};
+    public static final double[] blueStageAmp = {15, 51.25};
+    public static final double[] blueStageSource = {16, 51.25};
   }
 
   public static final class limelightConstants{
-    public static final double thetakP = 1.75;
-    public static final double thetakI = 0;
-    public static final double thetakD = 15;
+    public static final double thetakP = 4;
+    public static final double thetakI = 0.0002;
+    public static final double thetakD = 0;
 
-    public static final double linearkP = 0.015;
-    public static final double linearkI = 0;
-    public static final double linearkD = 0;
+    public static final double linearkP = 1.25;
+    public static final double linearkI = 0.001;
+    public static final double linearkD = 0.05;
+
+    public static final double limelightAngle = 30;
+    public static final double limelightDistanceForward = 10.5; //inches
+    public static final double limelightDistanceRight = 2.5; //inches
+    public static final double limelightHeight = 10.5; //inches
   }
 
 

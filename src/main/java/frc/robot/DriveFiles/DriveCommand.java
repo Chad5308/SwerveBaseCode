@@ -13,7 +13,7 @@ public class DriveCommand extends Command{
     
 
     
-    private final SwerveSubsystem swerveSubsystem;
+    private final SwerveSubsystem s_Swerve;
     private final LimelightSubsystem s_limelight;
     public final CommandXboxController opController;
     // public final CommandJoystick leftStick;
@@ -28,15 +28,15 @@ public class DriveCommand extends Command{
 
 
 
-    // public DriveCommand(SwerveSubsystem swerveSubsystem, CommandXboxController opController, CommandJoystick leftStick, CommandJoystick rightStick) {
-        public DriveCommand(SwerveSubsystem swerveSubsystem, CommandXboxController opController, LimelightSubsystem s_limelight) {
+    // public DriveCommand(s_Swerve s_Swerve, CommandXboxController opController, CommandJoystick leftStick, CommandJoystick rightStick) {
+        public DriveCommand(SwerveSubsystem s_Swerve, CommandXboxController opController, LimelightSubsystem s_limelight) {
 
-                this.swerveSubsystem = swerveSubsystem;
+                this.s_Swerve = s_Swerve;
                 this.s_limelight = s_limelight;
                 this.xLimiter = new SlewRateLimiter(Constants.DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
                 this.yLimiter = new SlewRateLimiter(Constants.DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
                 this.turningLimiter = new SlewRateLimiter(Constants.DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
-                addRequirements(swerveSubsystem);
+                addRequirements(s_Swerve);
                 this.opController = opController;
                 // this.leftStick = leftStick;
                 // this.rightStick = rightStick;
@@ -45,7 +45,7 @@ public class DriveCommand extends Command{
 
     @Override
     public void initialize() {
-     swerveSubsystem.faceAllFoward();
+     s_Swerve.faceAllFoward();
     }
 
  
@@ -60,7 +60,7 @@ public class DriveCommand extends Command{
         xSpeed = -opController.getLeftX();
         ySpeed = -opController.getLeftY();
         turningSpeed = -opController.getRightX();
-        fieldOriented = swerveSubsystem.fieldOriented;
+        fieldOriented = s_Swerve.fieldOriented;
 
 
         
@@ -76,24 +76,47 @@ public class DriveCommand extends Command{
         turningSpeed = turningLimiter.calculate(turningSpeed) * Constants.DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
         ChassisSpeeds chassisSpeeds;
-        if(s_limelight.autoDrive)
-        {
-            chassisSpeeds = new ChassisSpeeds(s_limelight.zSpeed, s_limelight.xSpeed, s_limelight.turningSpeed);
-            // chassisSpeeds = new ChassisSpeeds(ySpeed, xSpeed, s_limelight.turningSpeed);
-        }
-        else if(fieldOriented){
-            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, turningSpeed, swerveSubsystem.geRotation2d());
-        }else {
-            chassisSpeeds = new ChassisSpeeds(ySpeed, xSpeed, turningSpeed);
-        }
-        swerveSubsystem.setModuleStates(chassisSpeeds);
+        // if(s_limelight.autoDrive)
+        // {
+        //     if(s_limelight.hasTargets)
+        //     {
+        //         // chassisSpeeds = new ChassisSpeeds(ySpeed, xSpeed, s_limelight.turningSpeed);
+        //         // chassisSpeeds = new ChassisSpeeds(s_limelight.ySpeed, s_limelight.xSpeed, s_limelight.turningSpeed);
+        //         chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, s_limelight.turningSpeed, s_Swerve.geRotation2d());
+        //     }else
+        //     {
+        //         chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, turningSpeed, s_Swerve.geRotation2d());
+        //     }
 
+
+        // }
+        // else if(fieldOriented){
+        //     chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, turningSpeed, s_Swerve.geRotation2d());
+        // }else {
+        //     chassisSpeeds = new ChassisSpeeds(ySpeed, xSpeed, turningSpeed);
+        // }
+        
+        
+        if(s_limelight.autoDriveToggle && s_limelight.hasTargets)
+        {
+                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(s_limelight.ySpeed, xSpeed, s_limelight.turningSpeed, s_Swerve.geRotation2d());
+        }else
+        {
+            if(fieldOriented)
+            {
+                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, turningSpeed, s_Swerve.geRotation2d());
+            }else
+            {
+                chassisSpeeds = new ChassisSpeeds(ySpeed, xSpeed, turningSpeed);
+            }
+        }
+        s_Swerve.setModuleStates(chassisSpeeds);
     }
 
 
     @Override
     public void end(boolean interrupted) {
-        swerveSubsystem.stopModules();
+        s_Swerve.stopModules();
     }
 
     @Override

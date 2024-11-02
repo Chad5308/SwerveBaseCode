@@ -14,7 +14,6 @@ import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.wpilibj2.command.Command;
 
-import edu.wpi.first.units.measure.LinearVelocity;
 
 
 /**
@@ -85,8 +84,7 @@ public final class Constants {
     public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
     public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
-    // public static final double kPhysicalMaxSpeedMetersPerSecond = 4.60248; //6.949 for Swerve X, 4.60248 for sd
-    public static final LinearVelocity kPhysicalMaxSpeedMetersPerSecond = 
+    public static final double kPhysicalMaxSpeedMetersPerSecond = 4.60248; //6.949 for Swerve X, 4.60248 for sd
     public static final double kPhysicalMaxAngularSpeedRadiansPerSecond =kPhysicalMaxSpeedMetersPerSecond/(kTrackWidth/2);
 
     //For limiting speed while driving

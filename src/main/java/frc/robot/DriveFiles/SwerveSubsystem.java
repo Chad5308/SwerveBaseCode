@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -75,12 +74,6 @@ public class SwerveSubsystem extends SubsystemBase{
     public Optional<Alliance> getAlliance(){
         return DriverStation.getAlliance();
     }
-    // public final SwerveDrivePoseEstimator m_poseEstimator = 
-    // new SwerveDrivePoseEstimator(
-    //     Constants.DriveConstants.kDriveKinematics,
-    //      geRotation2d(),
-    //       getPositions(frontRightModule.getPosition(), frontLeftModule.getPosition(), backRightModule.getPosition(), backLeftModule.getPosition()),
-    //        getAutoPose());
 
     //Odometer code
     public final SwerveDriveOdometry odometer = new SwerveDriveOdometry(Constants.DriveConstants.kDriveKinematics,

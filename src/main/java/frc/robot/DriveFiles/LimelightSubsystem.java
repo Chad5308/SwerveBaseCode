@@ -10,7 +10,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
@@ -45,26 +44,14 @@ public LimelightHelpers.PoseEstimate mt2;
 
     public LimelightSubsystem(SwerveSubsystem s_swerve){
         this.s_swerve = s_swerve;
-        // NetworkTableInstance.getDefault().getTable("limelight").getEntry("<variablename>").getDouble(0);
         networkTables = NetworkTableInstance.getDefault().getTable("limelight");
         pipelinePublisher = networkTables.getIntegerTopic("limelight.getpipeline").publish();
-        
         
         thetaPIDController = new ProfiledPIDController(Constants.limelightConstants.thetakP, Constants.limelightConstants.thetakI, Constants.limelightConstants.thetakD, Constants.AutoConstants.kThetaControllerConstraints);
         xPIDController = new ProfiledPIDController(Constants.limelightConstants.linearkP, Constants.limelightConstants.linearkI, Constants.limelightConstants.linearkD, Constants.AutoConstants.kLinearConstraints);
         yPIDController = new ProfiledPIDController(Constants.limelightConstants.linearkP, Constants.limelightConstants.linearkI, Constants.limelightConstants.linearkD, Constants.AutoConstants.kLinearConstraints);
-        // tLimiter = new SlewRateLimiter(Constants.AutoConstants.kMaxAngularAccelerationUnitsPerSecond);
-        // xLimiter = new SlewRateLimiter(Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
-        // zLimiter = new SlewRateLimiter(Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
+        setPIDControllers();
 
-      setPIDControllers();
-
-        // LimelightHelpers.LimelightResults r_limelight = new LimelightResults();
-
-        // fieldLayout = new AprilTagFieldLayout(AprilTagFields.k2024Crescendo.);
-
-        // LimelightHelpers.SetRobotOrientation(limelightName, s_swerve.m_poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
-        // mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelightName);
     }
 
     public Optional<Pose2d> getPoseFromAprilTags() {

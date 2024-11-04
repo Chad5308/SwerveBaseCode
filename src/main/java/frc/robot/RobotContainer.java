@@ -37,7 +37,6 @@ public class RobotContainer {
   public SwerveSubsystem s_Swerve = new SwerveSubsystem();
   public LimelightHelpers h_Limelight = new LimelightHelpers();
   public LimelightSubsystem s_Limelight = new LimelightSubsystem(s_Swerve);
-  // public DriveCommand d_Command = new DriveCommand(s_Swerve, opController, leftStick, rightStick);
   public DriveCommand d_Command = new DriveCommand(s_Swerve, opController, s_Limelight);
   public AutoCommand c_Auto = new AutoCommand(d_Command, s_Swerve, s_Limelight);
 
@@ -72,17 +71,5 @@ public class RobotContainer {
     opController.povRight().toggleOnTrue(Commands.runOnce(() -> s_Swerve.zeroHeading()));
     opController.povLeft().toggleOnTrue(s_Swerve.fieldOrientedToggle());
     opController.button(7).onTrue(s_Swerve.resetWheels()); //window looking button
-
-    // opController.a().onTrue(s_Limelight.autoAlignToggle());
-    // opController.b().onTrue(s_Limelight.autoDriveToggle());
-
-
-    // rightStick.button(4).toggleOnTrue(Commands.runOnce(() -> s_Swerve.zeroHeading()));
-    // rightStick.button(3).toggleOnTrue(s_Swerve.fieldOrientedToggle());
-    // rightStick.button(2).onTrue(s_Swerve.resetWheels()); //window looking button
-    
-
-    //test for PID
-    // shootController.y().onTrue(Commands.runOnce(() -> {pitchSubsystem.setPosition(Constants.ShooterConstants.closeSpeakerAngle);}));
   }
 }

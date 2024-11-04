@@ -50,19 +50,6 @@ public PIDController rotationConstants = new PIDController(Constants.AutoConstan
                 s_Swerve
                 );
 
-        // AutoBuilder.configure(
-        //     s_Swerve::getAutoPose,
-        //     s_Swerve::resetOdometry,
-        //     s_Swerve::getRobotRelativeSpeeds,
-        //     s_Swerve::driveRobotRelative,
-        //     pathController,
-        //     robotConfig,
-        //     s_Swerve::allianceCheck,
-        //     s_Swerve);
-
-            
-    
-                
         NamedCommands.registerCommand("FaceForward Wheels", Commands.runOnce(() -> s_Swerve.faceAllFoward()));
         NamedCommands.registerCommand("AutoDrive", Commands.runOnce(() -> s_Limelight.autoDrive.schedule()));
         // NamedCommands.registerCommand("AutoRunCheck", s_Limelight.autoDriveCheck());
@@ -70,16 +57,7 @@ public PIDController rotationConstants = new PIDController(Constants.AutoConstan
         NamedCommands.registerCommand("AutoDrive Complete", Commands.runOnce(() -> System.out.println("AutoDrive Complete")));
         NamedCommands.registerCommand("AutoDrive Active", Commands.runOnce(() -> System.out.println("AutoDrive Active")));
     }
-
-    // public PathFollowingController pathController = new PPHolonomicDriveController(translationConstants.getP(), translationConstants.getI(), translationConstants.getD(), rotationConstants.getP(), rotationConstants.getI(), rotationConstants.getD());
-
-    // public PathFollowingController pathController = new PPHolonomicDriveController(
-    //     new com.pathplanner.lib.config.PIDConstants(translationConstants.getP(), translationConstants.getI(), translationConstants.getD()),
-    //     new com.pathplanner.lib.config.PIDConstants(rotationConstants.getP(), rotationConstants.getI(), rotationConstants.getD()));
-
-    // public DCMotor neoV1 = new DCMotor(0, 0, 0, 0, 0, 0);
-    // public ModuleConfig moduleConfig = new ModuleConfig(Constants.DriveConstants.wheelRadius, Constants.AutoConstants.kMaxSpeedMetersPerSecond, Constants.DriveConstants.COF, neoV1, 21, 4);
-    // public RobotConfig robotConfig = new RobotConfig(25.8, 6.883, moduleConfig, Constants.DriveConstants.kTrackWidth, Constants.DriveConstants.kWheelBase);
+    
     public HolonomicPathFollowerConfig autoConfig = new HolonomicPathFollowerConfig(
         new PIDConstants(translationConstants.getP(), translationConstants.getI(), translationConstants.getD()),
         new PIDConstants(rotationConstants.getP(), rotationConstants.getI(), rotationConstants.getD()), 

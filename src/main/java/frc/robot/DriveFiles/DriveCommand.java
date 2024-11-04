@@ -76,25 +76,6 @@ public class DriveCommand extends Command{
         turningSpeed = turningLimiter.calculate(turningSpeed) * Constants.DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
         ChassisSpeeds chassisSpeeds;
-        // if(s_limelight.autoDrive)
-        // {
-        //     if(s_limelight.hasTargets)
-        //     {
-        //         // chassisSpeeds = new ChassisSpeeds(ySpeed, xSpeed, s_limelight.turningSpeed);
-        //         // chassisSpeeds = new ChassisSpeeds(s_limelight.ySpeed, s_limelight.xSpeed, s_limelight.turningSpeed);
-        //         chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, s_limelight.turningSpeed, s_Swerve.geRotation2d());
-        //     }else
-        //     {
-        //         chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, turningSpeed, s_Swerve.geRotation2d());
-        //     }
-
-
-        // }
-        // else if(fieldOriented){
-        //     chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, turningSpeed, s_Swerve.geRotation2d());
-        // }else {
-        //     chassisSpeeds = new ChassisSpeeds(ySpeed, xSpeed, turningSpeed);
-        // }
         
         
         if(s_limelight.autoDriveToggle && s_limelight.hasTargets)

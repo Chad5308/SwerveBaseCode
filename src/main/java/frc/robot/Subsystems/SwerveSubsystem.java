@@ -1,10 +1,9 @@
-package frc.robot.DriveFiles;
+package frc.robot.Subsystems;
 
 import java.util.Optional;
 
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -19,21 +18,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants;
-import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.constants_Drive;
+import frc.robot.Constants.constants_OI;
 
 public class SwerveSubsystem extends SubsystemBase{
-    public final CommandXboxController opController = new CommandXboxController(OIConstants.kOPControllerPort);
+    public final CommandXboxController opController = new CommandXboxController(constants_OI.kOPControllerPort);
     public boolean fieldOriented = false;
     public boolean hasReset = false;
     public boolean isRedAlliance;
     Optional<Alliance> alliance;
   
     
-    public static SwerveModule frontLeftModule = new SwerveModule(Constants.DriveConstants.kFrontLeftTurningMotorPort, Constants.DriveConstants.kFrontLeftDriveMotorPort, Constants.DriveConstants.kFrontLeftDriveEncoderReversed, Constants.DriveConstants.kFrontLeftTurningEncoderReversed, Constants.DriveConstants.kFrontLeftDriveAbsoluteEncoderPort, Constants.DriveConstants.kBLDegrees, Constants.DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
-    public static SwerveModule frontRightModule = new SwerveModule(Constants.DriveConstants.kFrontRightTurningMotorPort, Constants.DriveConstants.kFrontRightDriveMotorPort, Constants.DriveConstants.kFrontRightDriveEncoderReversed, Constants.DriveConstants.kFrontRightTurningEncoderReversed, Constants.DriveConstants.kFrontRightDriveAbsoluteEncoderPort, Constants.DriveConstants.kBRDegrees, Constants.DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
-    public static SwerveModule backLeftModule = new SwerveModule(Constants.DriveConstants.kBackLeftTurningMotorPort, Constants.DriveConstants.kBackLeftDriveMotorPort, Constants.DriveConstants.kBackLeftDriveEncoderReversed, Constants.DriveConstants.kBackLeftTurningEncoderReversed, Constants.DriveConstants.kBackLeftDriveAbsoluteEncoderPort, Constants.DriveConstants.kFLDegrees, Constants.DriveConstants.kBackLeftTurningEncoderReversed);
-    public static SwerveModule backRightModule = new SwerveModule(Constants.DriveConstants.kBackRightTurningMotorPort, Constants.DriveConstants.kBackRightDriveMotorPort, Constants.DriveConstants.kBackRightDriveEncoderReversed, Constants.DriveConstants.kBackRightTurningEncoderReversed, Constants.DriveConstants.kBackRightDriveAbsoluteEncoderPort, Constants.DriveConstants.kFRDegrees, Constants.DriveConstants.kBackRightTurningEncoderReversed);
+    public static SwerveModule frontLeftModule = new SwerveModule(constants_Drive.kFrontLeftTurningMotorPort, constants_Drive.kFrontLeftDriveMotorPort, constants_Drive.kFrontLeftDriveEncoderReversed, constants_Drive.kFrontLeftTurningEncoderReversed, constants_Drive.kFrontLeftDriveAbsoluteEncoderPort, constants_Drive.kBLDegrees, constants_Drive.kFrontLeftDriveAbsoluteEncoderReversed);
+    public static SwerveModule frontRightModule = new SwerveModule(constants_Drive.kFrontRightTurningMotorPort, constants_Drive.kFrontRightDriveMotorPort, constants_Drive.kFrontRightDriveEncoderReversed, constants_Drive.kFrontRightTurningEncoderReversed, constants_Drive.kFrontRightDriveAbsoluteEncoderPort, constants_Drive.kBRDegrees, constants_Drive.kFrontRightDriveAbsoluteEncoderReversed);
+    public static SwerveModule backLeftModule = new SwerveModule(constants_Drive.kBackLeftTurningMotorPort, constants_Drive.kBackLeftDriveMotorPort, constants_Drive.kBackLeftDriveEncoderReversed, constants_Drive.kBackLeftTurningEncoderReversed, constants_Drive.kBackLeftDriveAbsoluteEncoderPort, constants_Drive.kFLDegrees, constants_Drive.kBackLeftTurningEncoderReversed);
+    public static SwerveModule backRightModule = new SwerveModule(constants_Drive.kBackRightTurningMotorPort, constants_Drive.kBackRightDriveMotorPort, constants_Drive.kBackRightDriveEncoderReversed, constants_Drive.kBackRightTurningEncoderReversed, constants_Drive.kBackRightDriveAbsoluteEncoderPort, constants_Drive.kFRDegrees, constants_Drive.kBackRightTurningEncoderReversed);
     
 
     public SwerveSubsystem() {
@@ -83,7 +82,7 @@ public class SwerveSubsystem extends SubsystemBase{
     //        getAutoPose());
 
     //Odometer code
-    public final SwerveDriveOdometry odometer = new SwerveDriveOdometry(Constants.DriveConstants.kDriveKinematics,
+    public final SwerveDriveOdometry odometer = new SwerveDriveOdometry(constants_Drive.kDriveKinematics,
     geRotation2d(), getPositions(frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition()));
     
     public Pose2d getPose() {
@@ -92,7 +91,7 @@ public class SwerveSubsystem extends SubsystemBase{
 
 
 
-    public final SwerveDriveOdometry autoOdometry = new SwerveDriveOdometry(Constants.DriveConstants.kDriveKinematics,
+    public final SwerveDriveOdometry autoOdometry = new SwerveDriveOdometry(constants_Drive.kDriveKinematics,
     geRotation2d(), getPositions(frontRightModule.getPosition(), frontLeftModule.getPosition(), backRightModule.getPosition(), backLeftModule.getPosition()));
 
     public void resetOdometry(Pose2d pose) {
@@ -107,7 +106,7 @@ public class SwerveSubsystem extends SubsystemBase{
 
 
     public ChassisSpeeds getRobotRelativeSpeeds(){
-        return Constants.DriveConstants.kDriveKinematics.toChassisSpeeds(frontLeftModule.gState(), frontRightModule.gState(), backLeftModule.gState(), backRightModule.gState());
+        return constants_Drive.kDriveKinematics.toChassisSpeeds(frontLeftModule.gState(), frontRightModule.gState(), backLeftModule.gState(), backRightModule.gState());
     }
     
 
@@ -120,8 +119,8 @@ public class SwerveSubsystem extends SubsystemBase{
     }
     
     public void setModuleStates(ChassisSpeeds speeds){
-        SwerveModuleState[] moduleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates(speeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, Constants.DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+        SwerveModuleState[] moduleStates = constants_Drive.kDriveKinematics.toSwerveModuleStates(speeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, constants_Drive.kPhysicalMaxSpeedMetersPerSecond);
         frontRightModule.setDesiredState(moduleStates[0]);
         frontLeftModule.setDesiredState(moduleStates[1]);
         backRightModule.setDesiredState(moduleStates[2]);
@@ -130,8 +129,8 @@ public class SwerveSubsystem extends SubsystemBase{
     
     public void driveRobotRelative(ChassisSpeeds speeds){
         // ChassisSpeeds.fromRobotRelativeSpeeds(speeds, geRotation2d());
-        SwerveModuleState[] moduleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates(speeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, Constants.DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+        SwerveModuleState[] moduleStates = constants_Drive.kDriveKinematics.toSwerveModuleStates(speeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, constants_Drive.kPhysicalMaxSpeedMetersPerSecond);
         frontRightModule.setDesiredState(moduleStates[0]);
         frontLeftModule.setDesiredState(moduleStates[1]);
         backRightModule.setDesiredState(moduleStates[2]);
@@ -141,19 +140,19 @@ public class SwerveSubsystem extends SubsystemBase{
     
     //face forward method. Called once the bot is enabled
     public void faceAllFoward() {
-        backRightModule.wheelFaceForward(Constants.DriveConstants.kBRDegrees);
-        frontLeftModule.wheelFaceForward(Constants.DriveConstants.kFLDegrees);
-        frontRightModule.wheelFaceForward(Constants.DriveConstants.kFRDegrees);
-        backLeftModule.wheelFaceForward(Constants.DriveConstants.kBLDegrees);
+        backRightModule.wheelFaceForward(constants_Drive.kBRDegrees);
+        frontLeftModule.wheelFaceForward(constants_Drive.kFLDegrees);
+        frontRightModule.wheelFaceForward(constants_Drive.kFRDegrees);
+        backLeftModule.wheelFaceForward(constants_Drive.kBLDegrees);
         System.out.println("exacuted faceAll");
     }
     
     public Command resetWheels(){
         return runOnce(() -> {
-                frontLeftModule.wheelFaceForward(Constants.DriveConstants.kFLDegrees);
-                frontRightModule.wheelFaceForward(Constants.DriveConstants.kFRDegrees);
-                backLeftModule.wheelFaceForward(Constants.DriveConstants.kBLDegrees);
-                backRightModule.wheelFaceForward(Constants.DriveConstants.kBRDegrees);
+                frontLeftModule.wheelFaceForward(constants_Drive.kFLDegrees);
+                frontRightModule.wheelFaceForward(constants_Drive.kFRDegrees);
+                backLeftModule.wheelFaceForward(constants_Drive.kBLDegrees);
+                backRightModule.wheelFaceForward(constants_Drive.kBRDegrees);
     });}
         
     public Command fieldOrientedToggle(){

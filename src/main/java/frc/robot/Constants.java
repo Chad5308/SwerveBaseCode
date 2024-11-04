@@ -5,14 +5,21 @@
 package frc.robot;
 
 import java.util.HashMap;
+import java.util.Map;
+
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
+// import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Velocity;
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Subsystems.StateMachine.TargetState;
+import edu.wpi.first.units.*;
 
 
 
@@ -25,15 +32,15 @@ import edu.wpi.first.wpilibj2.command.Command;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static final class DriveConstants {
+  public static final class constants_Drive {
 
     public static final Measure<Distance> wheelRadius = edu.wpi.first.units.Units.Inches.of(1.5);
     // public static final double wheelRadius = Units.inchesToMeters(1.5);
     public static final double COF = 1.2;
     //TODO Input trackWidth and WheelBase measurements
-    public static final double kTrackWidth = Units.inchesToMeters(23.75);
+    public static final double kTrackWidth = Units.Meters.convertFrom(23.75, Units.Inches);
       // Distance between right and left wheels
-    public static final double kWheelBase = Units.inchesToMeters(23.75);
+    public static final double kWheelBase = Units.Meters.convertFrom(23.75, Units.Inches);
       // Distance between front and back wheels
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
       new Translation2d(kWheelBase / 2, -kTrackWidth / 2), //front left
@@ -94,8 +101,8 @@ public final class Constants {
     public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 0.75;
   }
   
-  public static final class ModuleConstants {
-    public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
+  public static final class constants_Module{
+    public static final double kWheelDiameterMeters = Units.Meters.convertFrom(4, Units.Inches);
     public static final double kDriveMotorGearRatio = 4.59 / 1; //4.59 for Swerve X, 6.75 for sds
     public static final double kTurningMotorGearRatio = 13.3714 / 1; //13.3714 for Swerve X, 12.8 for sds
     public static final double kDriveEncoderRot2Meter = 1/16.0344; //Not sure try 1/16.0344, 1/23.58 for sds
@@ -108,10 +115,10 @@ public final class Constants {
     public static final double kITurning = 0.0;
     public static final double kDTurning = 0.75;
 
-    public static final double moduleRadius = Units.inchesToMeters(Constants.DriveConstants.kTrackWidth/2); //measured from center of robot to furthest module.
+    public static final double moduleRadius = Units.Meters.convertFrom(constants_Drive.kTrackWidth/2, Units.Inches);//measured from center of robot to furthest module.
   }
 
-  public static final class OIConstants {
+  public static final class constants_OI {
     public static final int kOPControllerPort = 0;
     public static final double kDeadband = 0.09;
     public static final int kLeftStickPort = 1;
@@ -120,7 +127,7 @@ public final class Constants {
  
 
   
-  public static final class AprilTagIds{ //[id num, height in inches, coordinate x, coordinate y, heading]
+  public static final class constants_AprilTagIds{ //[id num, height in inches, coordinate x, coordinate y, heading]
     public static final double[] blueSourceRight = {1, 53.375};
     public static final double[] blueSourceLeft = {2, 53.375};
     public static final double[] redSpeakerRight = {3, 57.125};
@@ -139,7 +146,7 @@ public final class Constants {
     public static final double[] blueStageSource = {16, 51.25};
   }
 
-  public static final class limelightConstants{
+  public static final class constants_limelight{
     public static final double thetakP = 4;
     public static final double thetakI = 0.0002;
     public static final double thetakD = 0;
@@ -155,11 +162,11 @@ public final class Constants {
   }
 
 
-  public static final class AutoConstants {
-    public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond/2;//0.5;
-    public static final double kMaxAccelerationMetersPerSecondSquared = DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond/2;//0.25;
-    public static final double kMaxAngularSpeedRadiansPerSecond =  DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
-    public static final double kMaxAngularAccelerationUnitsPerSecond = DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond;
+  public static final class constants_Auto {
+    public static final double kMaxSpeedMetersPerSecond = constants_Drive.kPhysicalMaxSpeedMetersPerSecond/2;//0.5;
+    public static final double kMaxAccelerationMetersPerSecondSquared = constants_Drive.kTeleDriveMaxAccelerationUnitsPerSecond/2;//0.25;
+    public static final double kMaxAngularSpeedRadiansPerSecond =  constants_Drive.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+    public static final double kMaxAngularAccelerationUnitsPerSecond = constants_Drive.kTeleDriveMaxAngularAccelerationUnitsPerSecond;
 
     public static  double kPTranslation = 5;
     public static  double kITranslation = 0;
@@ -182,5 +189,23 @@ public final class Constants {
                 kMaxAccelerationMetersPerSecondSquared
             );
   }
+
+  
+  public static class constants_StateMachine
+  {
+    
+    /**
+     * Returns the associated RobotState with the given TargetState
+     */
+    public static final Map<TargetState, RobotState> TARGET_TO_ROBOT_STATE = new HashMap<TargetState, RobotState>();
+
+    static 
+    {
+      // TARGET_TO_ROBOT_STATE.put(TargetState.PREP_NONE, RobotState.PREP_NONE);
+    }
+
+    
+  }
+
 }
 

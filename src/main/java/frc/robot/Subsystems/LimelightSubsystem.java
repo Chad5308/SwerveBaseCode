@@ -1,4 +1,4 @@
-package frc.robot.DriveFiles;
+package frc.robot.Subsystems;
 
 import java.util.Optional;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -10,10 +10,10 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
+import frc.robot.Constants.constants_Auto;
+import frc.robot.Constants.constants_limelight;
 import frc.robot.LimelightHelpers.LimelightResults;
 
 import java.util.function.*;
@@ -50,9 +50,9 @@ public LimelightHelpers.PoseEstimate mt2;
         pipelinePublisher = networkTables.getIntegerTopic("limelight.getpipeline").publish();
         
         
-        thetaPIDController = new ProfiledPIDController(Constants.limelightConstants.thetakP, Constants.limelightConstants.thetakI, Constants.limelightConstants.thetakD, Constants.AutoConstants.kThetaControllerConstraints);
-        xPIDController = new ProfiledPIDController(Constants.limelightConstants.linearkP, Constants.limelightConstants.linearkI, Constants.limelightConstants.linearkD, Constants.AutoConstants.kLinearConstraints);
-        yPIDController = new ProfiledPIDController(Constants.limelightConstants.linearkP, Constants.limelightConstants.linearkI, Constants.limelightConstants.linearkD, Constants.AutoConstants.kLinearConstraints);
+        thetaPIDController = new ProfiledPIDController(constants_limelight.thetakP, constants_limelight.thetakI, constants_limelight.thetakD, constants_Auto.kThetaControllerConstraints);
+        xPIDController = new ProfiledPIDController(constants_limelight.linearkP, constants_limelight.linearkI, constants_limelight.linearkD, constants_Auto.kLinearConstraints);
+        yPIDController = new ProfiledPIDController(constants_limelight.linearkP, constants_limelight.linearkI, constants_limelight.linearkD, constants_Auto.kLinearConstraints);
         // tLimiter = new SlewRateLimiter(Constants.AutoConstants.kMaxAngularAccelerationUnitsPerSecond);
         // xLimiter = new SlewRateLimiter(Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
         // zLimiter = new SlewRateLimiter(Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
@@ -192,7 +192,7 @@ public LimelightHelpers.PoseEstimate mt2;
         // targetID = LimelightHelpers.getFiducialID(limelightName);
         // targetArea = LimelightHelpers.getTA(limelightName);
         
-        distanceY = (((24 - Constants.limelightConstants.limelightHeight) / (Math.tan(Math.toRadians(yAng+Constants.limelightConstants.limelightAngle)))) + Constants.limelightConstants.limelightDistanceForward) * 0.0254; //meters from target to center of robot
+        distanceY = (((24 - constants_limelight.limelightHeight) / (Math.tan(Math.toRadians(yAng+constants_limelight.limelightAngle)))) + constants_limelight.limelightDistanceForward) * 0.0254; //meters from target to center of robot
         distanceX = (Math.cos(Math.toRadians(distanceY/xAng))) * 0.0254;//meters to center of robot
         
         // xSpeed = -1 * xPIDController.calculate(correctionX); //m/sec

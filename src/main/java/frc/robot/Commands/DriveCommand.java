@@ -1,12 +1,14 @@
-package frc.robot.DriveFiles;
+package frc.robot.Commands;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants;
-import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.constants_Drive;
+import frc.robot.Constants.constants_OI;
+import frc.robot.Subsystems.LimelightSubsystem;
+import frc.robot.Subsystems.SwerveSubsystem;
 
 
 public class DriveCommand extends Command{
@@ -33,9 +35,9 @@ public class DriveCommand extends Command{
 
                 this.s_Swerve = s_Swerve;
                 this.s_limelight = s_limelight;
-                this.xLimiter = new SlewRateLimiter(Constants.DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
-                this.yLimiter = new SlewRateLimiter(Constants.DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
-                this.turningLimiter = new SlewRateLimiter(Constants.DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
+                this.xLimiter = new SlewRateLimiter(constants_Drive.kTeleDriveMaxAccelerationUnitsPerSecond);
+                this.yLimiter = new SlewRateLimiter(constants_Drive.kTeleDriveMaxAccelerationUnitsPerSecond);
+                this.turningLimiter = new SlewRateLimiter(constants_Drive.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
                 addRequirements(s_Swerve);
                 this.opController = opController;
                 // this.leftStick = leftStick;
@@ -67,13 +69,13 @@ public class DriveCommand extends Command{
         SmartDashboard.putBoolean("fieldOriented", fieldOriented);
 
 
-        xSpeed = Math.abs(xSpeed) > OIConstants.kDeadband ? xSpeed : 0.0;
-        ySpeed = Math.abs(ySpeed) > OIConstants.kDeadband ? ySpeed : 0.0;
-        turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadband ? turningSpeed : 0.0;
+        xSpeed = Math.abs(xSpeed) > constants_OI.kDeadband ? xSpeed : 0.0;
+        ySpeed = Math.abs(ySpeed) > constants_OI.kDeadband ? ySpeed : 0.0;
+        turningSpeed = Math.abs(turningSpeed) > constants_OI.kDeadband ? turningSpeed : 0.0;
 
-        xSpeed = xLimiter.calculate(xSpeed) * Constants.DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-        ySpeed = yLimiter.calculate(ySpeed) * Constants.DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-        turningSpeed = turningLimiter.calculate(turningSpeed) * Constants.DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+        xSpeed = xLimiter.calculate(xSpeed) * constants_Drive.kTeleDriveMaxSpeedMetersPerSecond;
+        ySpeed = yLimiter.calculate(ySpeed) * constants_Drive.kTeleDriveMaxSpeedMetersPerSecond;
+        turningSpeed = turningLimiter.calculate(turningSpeed) * constants_Drive.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
         ChassisSpeeds chassisSpeeds;
         // if(s_limelight.autoDrive)

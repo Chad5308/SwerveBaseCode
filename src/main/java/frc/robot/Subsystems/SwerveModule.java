@@ -1,6 +1,7 @@
-package frc.robot.DriveFiles;
+package frc.robot.Subsystems;
 
-import frc.robot.Constants;
+import frc.robot.Constants.constants_Drive;
+import frc.robot.Constants.constants_Module;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -49,9 +50,9 @@ public class SwerveModule extends SubsystemBase{
 
     //Steer + Driving PID Controllers
     turningPidController = steerMotor.getPIDController();
-    turningPidController.setP(Constants.ModuleConstants.kPTurning);
-    turningPidController.setI(Constants.ModuleConstants.kITurning);
-    turningPidController.setD(Constants.ModuleConstants.kITurning);
+    turningPidController.setP(constants_Module.kPTurning);
+    turningPidController.setI(constants_Module.kITurning);
+    turningPidController.setD(constants_Module.kITurning);
     turningPidController.setPositionPIDWrappingEnabled(true);
     turningPidController.setPositionPIDWrappingMaxInput(1080); 
     turningPidController.setPositionPIDWrappingMinInput(720);
@@ -67,11 +68,11 @@ public class SwerveModule extends SubsystemBase{
     //Steer + Drive Motor Encoder
     driveMotorEncoder = driveMotor.getEncoder();
     driveMotorEncoder.setPositionConversionFactor(1/22.5);
-    driveMotorEncoder.setVelocityConversionFactor(Constants.ModuleConstants.kDriveEncoderRPM2MeterPerSec);
+    driveMotorEncoder.setVelocityConversionFactor(constants_Module.kDriveEncoderRPM2MeterPerSec);
 
     steerMotorEncoder = steerMotor.getEncoder();
-    steerMotorEncoder.setPositionConversionFactor(Constants.ModuleConstants.kTurningConversionFactor2Deg);
-    steerMotorEncoder.setVelocityConversionFactor(Constants.ModuleConstants.kTurningEncoderRPM2DegPerSec);
+    steerMotorEncoder.setPositionConversionFactor(constants_Module.kTurningConversionFactor2Deg);
+    steerMotorEncoder.setVelocityConversionFactor(constants_Module.kTurningEncoderRPM2DegPerSec);
 
  //reset encoders after init phase
     resetDrive();
@@ -131,7 +132,7 @@ public SwerveModulePosition getPosition() {
 public void setDesiredState(SwerveModuleState state) {
   if (Math.abs(state.speedMetersPerSecond) < 0.01) {stop();return;}
   state = SwerveModuleState.optimize(state, Rotation2d.fromDegrees(gState().angle.getDegrees()));
-  driveMotor.set(state.speedMetersPerSecond / Constants.DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+  driveMotor.set(state.speedMetersPerSecond / constants_Drive.kPhysicalMaxSpeedMetersPerSecond);
   turningPidController.setReference(state.angle.getDegrees(), com.revrobotics.CANSparkBase.ControlType.kPosition);
   
 }

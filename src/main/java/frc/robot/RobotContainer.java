@@ -4,11 +4,11 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OIConstants;
-import frc.robot.DriveFiles.AutoCommand;
-import frc.robot.DriveFiles.DriveCommand;
-import frc.robot.DriveFiles.LimelightSubsystem;
-import frc.robot.DriveFiles.SwerveSubsystem;
+import frc.robot.Commands.AutoCommand;
+import frc.robot.Commands.DriveCommand;
+import frc.robot.Constants.constants_OI;
+import frc.robot.Subsystems.LimelightSubsystem;
+import frc.robot.Subsystems.SwerveSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
  */
 public class RobotContainer {
 
-  private final CommandXboxController opController = new CommandXboxController(OIConstants.kOPControllerPort);
+  private final CommandXboxController opController = new CommandXboxController(constants_OI.kOPControllerPort);
   // private final CommandJoystick leftStick = new CommandJoystick(OIConstants.kLeftStickPort);
   // private final CommandJoystick rightStick = new CommandJoystick(OIConstants.kRightStickPort);
 

@@ -1,4 +1,4 @@
-package frc.robot.DriveFiles;
+package frc.robot.Commands;
 
 
 
@@ -17,15 +17,19 @@ import edu.wpi.first.math.controller.PIDController;
 // import edu.wpi.first.units.Distance;
 // import edu.wpi.first.units.Measure;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.Constants;
+import frc.robot.Constants.constants_Auto;
+import frc.robot.Constants.constants_Drive;
+import frc.robot.Constants.constants_Module;
+import frc.robot.Subsystems.LimelightSubsystem;
+import frc.robot.Subsystems.SwerveSubsystem;
 
 public class AutoCommand {
     
 public DriveCommand c_Drive;
 public SwerveSubsystem s_Swerve;
 public LimelightSubsystem s_Limelight;
-public PIDController translationConstants = new PIDController(Constants.AutoConstants.kPTranslation, Constants.AutoConstants.kITranslation, Constants.AutoConstants.kDTranslation);
-public PIDController rotationConstants = new PIDController(Constants.AutoConstants.kPTheta, Constants.AutoConstants.kITheta, Constants.AutoConstants.kDTheta);
+public PIDController translationConstants = new PIDController(constants_Auto.kPTranslation, constants_Auto.kITranslation, constants_Auto.kDTranslation);
+public PIDController rotationConstants = new PIDController(constants_Auto.kPTheta, constants_Auto.kITheta, constants_Auto.kDTheta);
 // public Map map
 
 
@@ -83,8 +87,8 @@ public PIDController rotationConstants = new PIDController(Constants.AutoConstan
     public HolonomicPathFollowerConfig autoConfig = new HolonomicPathFollowerConfig(
         new PIDConstants(translationConstants.getP(), translationConstants.getI(), translationConstants.getD()),
         new PIDConstants(rotationConstants.getP(), rotationConstants.getI(), rotationConstants.getD()), 
-        Constants.DriveConstants.kTeleDriveMaxSpeedMetersPerSecond, 
-        Constants.ModuleConstants.moduleRadius, 
+        constants_Drive.kTeleDriveMaxSpeedMetersPerSecond, 
+        constants_Module.moduleRadius, 
         new ReplanningConfig());
 
 
